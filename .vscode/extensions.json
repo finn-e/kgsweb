@@ -3,7 +3,6 @@
     "editorconfig.editorconfig",
     "dbaeumer.vscode-eslint",
     "vue.volar",
-    "bradlc.vscode-tailwindcss",
     "Prisma.prisma-insider"
   ]
 }

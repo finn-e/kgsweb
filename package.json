@@ -45,10 +45,15 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.1",
-    "@sidebase/core": "^0.1.4",
+    "@sidebase/core": "^0.1.4"
   },
-  "name": "kgsweb",
+  "name": "@kygeosurvey/kgsweb",
   "type": "module",
+  "version": "0.0.2",
+  "description": "The website of the Kentucky Geological Survey",
+  "author": "Fin o'Flaherty",
+  "license": "MIT",
+  "main": ".output/server/index.mjs",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
