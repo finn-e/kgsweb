@@ -1,11 +1,11 @@
-import pkg from './package.json'
+import pack from './package.json'
 import { setAbsoluteSqliteDatabaseUrlForPrisma } from './prisma/utils'
 
 setAbsoluteSqliteDatabaseUrlForPrisma()
 
 export default defineNuxtConfig({
   runtimeConfig: {
-    version: pkg.version
+    version: pack.version
   },
   modules: ['nuxt-svgo', '@huntersofbook/naive-ui-nuxt'],
   extends: ['@sidebase/core'],

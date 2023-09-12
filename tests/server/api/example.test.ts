@@ -1,8 +1,10 @@
-import { describe, expect, it, beforeEach } from 'vitest'
-import { setup, $fetch } from '@nuxt/test-utils'
 import { faker } from '@faker-js/faker'
-import { Prisma } from '@prisma/client'
+import { $fetch, setup } from '@nuxt/test-utils'
+import { PrismaClient } from '@prisma/client'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { resetDatabase } from '~/prisma/utils'
+
+const prisma = new PrismaClient()
 
 await setup({
   server: true,
@@ -34,12 +36,12 @@ describe('/api/example/:id', () => {
 
   it('PUT creates an entity, then GET allows to fetch it', async () => {
     // 1. Create the entity and assert that it has the correct shape & values
-    const exampleToCreate: Prisma.ExampleCreateInput = {
+    const exampleToCreate: prisma.ExampleCreateInput = {
       description: faker.lorem.paragraph(),
       details: faker.lorem.paragraphs()
     }
 
-    const exampleAfterUpsert = await $fetch(`/api/example/${faker.datatype.uuid()}`, {
+    const exampleAfterUpsert = await $fetch(`/api/example/${faker.string.uuid()}`, {
       method: 'PUT',
       body: exampleToCreate
     })
@@ -54,14 +56,14 @@ describe('/api/example/:id', () => {
     expect(exampleFromGet).toStrictEqual(exampleAfterUpsert)
   })
 
-  it('PUT creates and entity if none exists, then updates it on a second call', async () => {
+  it('PUT creates an entity if none exists, then updates it on a second call', async () => {
     // 1. Create the entity and assert that it has the correct shape & values
-    const exampleToCreate: Prisma.ExampleCreateInput = {
+    const exampleToCreate: prisma.ExampleCreateInput = {
       description: faker.lorem.paragraph(),
       details: faker.lorem.paragraphs()
     }
 
-    const exampleAfterUpsert = await $fetch(`/api/example/${faker.datatype.uuid()}`, {
+    const exampleAfterUpsert = await $fetch(`/api/example/${faker.string.uuid()}`, {
       method: 'PUT',
       body: exampleToCreate
     })
@@ -71,8 +73,8 @@ describe('/api/example/:id', () => {
     expect(exampleAfterUpsert.description).toBe(exampleToCreate.description)
 
     // 2. Update the entity and check if the value has changed
-    const updatePayload: Prisma.ExampleUpdateInput = { description: faker.lorem.paragraphs(), details: faker.lorem.paragraphs() }
-    const exampleAfterUpdate = await $fetch(`/api/example/${faker.datatype.uuid()}`, {
+    const updatePayload: prisma.ExampleUpdateInput = { description: faker.lorem.paragraphs(), details: faker.lorem.paragraphs() }
+    const exampleAfterUpdate = await $fetch(`/api/example/${faker.string.uuid()}`, {
       method: 'PUT',
       body: updatePayload
     })
@@ -83,7 +85,7 @@ describe('/api/example/:id', () => {
 
   it('PUT throws errors for invalid data', async () => {
     // 1. Create the entity and assert that it has the correct shape & values
-    const exampleToCreate: Prisma.ExampleCreateInput = {
+    const exampleToCreate: prisma.ExampleCreateInput = {
       description: faker.lorem.paragraph(),
       details: faker.lorem.paragraphs()
     }
